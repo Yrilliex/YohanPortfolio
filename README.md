@@ -86,7 +86,7 @@ There is also a number of default CSS classes that can be applied such as `.shad
 
 By default, the template comes with a number of images, some of which can be kept and others which act simply as placeholders and should be switched. The template contains the following:
 
-* Main background (images/lead-bg.jpg) - this is the main background image provided via [Unsplash](https://unsplash.com/). This can be kept or changed easily by replacing `images/lead-bg.jpg` with your new background (recommended size of at least 1920x1080).
+* Main background (images/lead-bg.jpg) - this is the main background image provided via [Unsplash](https://unsplash.com/). This can be kept or changed easily by replacing `images/sean-do-EHLd2utEf68-unsplash.jpg` with your new background (recommended size of at least 1920x1080).
 * Favicon (/favicon.ico) - this is the favicon used for the page. Similar to the main bg, this can be kept or changed easily by replacing the `favicon.ico` with your new one.
 * Project image - these are the images associated with the projects under the project section. These are simply placeholders and should either be replaced or removed.
 
