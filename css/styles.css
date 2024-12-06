@@ -125,3 +125,39 @@ footer{padding:50px 0}.copyright{padding-top:20px}
             .project-image{display:none}.project-info{position:relative;margin:0;padding:30px 15px;top:auto;transform:none}
             footer{text-align:center}
             .social{text-align:center}}@media only screen and (max-width: 480px){#lead-content h1{font-size:1.5em}#lead-content h2{font-size:1em}#lead-content a{font-size:0.9em;padding:5px 10px}}
+            .thumbnail img {
+                width: 100px; /* Smaller width */
+                height: 70px; /* Smaller height */
+                object-fit: cover;
+                border: 2px solid #ccc;
+                border-radius: 4px;
+                transition: transform 0.3s ease;
+            }
+            
+            .thumbnail img:hover {
+                transform: scale(1.1);
+                border-color: #007bff;
+            }
+            .scrollable-project {
+                max-height: 400px; /* Set the height for the scrollable section */
+                overflow-y: auto; /* Enable vertical scrolling */
+                border: 1px solid #ccc; /* Optional: Add a border to indicate the scrollable area */
+                padding: 10px;
+                margin: 20px;
+                scrollbar-width: thin; /* For Firefox */
+                scrollbar-color: #007bff #f1f1f1; /* Thumb and track color */
+            }
+            
+            /* Optional: Style the scrollbar for WebKit browsers */
+            .scrollable-project::-webkit-scrollbar {
+                width: 8px;
+            }
+            
+            .scrollable-project::-webkit-scrollbar-thumb {
+                background: #007bff; /* Scrollbar thumb color */
+                border-radius: 4px;
+            }
+            
+            .scrollable-project::-webkit-scrollbar-track {
+                background: #f1f1f1; /* Scrollbar track color */
+            }

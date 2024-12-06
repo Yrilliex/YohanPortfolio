@@ -14,12 +14,8 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 1,
+          "SelectedChildIndex": 0,
           "Children": [
-            {
-              "$type": "Bookmark",
-              "Name": "ST:0:0:{aa2115a1-9712-457b-9047-dbb71ca2cdd2}"
-            },
             {
               "$type": "Document",
               "DocumentIndex": 0,
@@ -28,14 +24,10 @@
               "RelativeDocumentMoniker": "index.html",
               "ToolTip": "G:\\GitHub Portfolio\\YohanPortfolio\\index.html",
               "RelativeToolTip": "index.html",
-              "ViewState": "AgIAADYAAAAAAAAAAAAAAEcAAAAzAAAAAAAAAA==",
+              "ViewState": "AQIAAC0AAAAAAAAAAAAAADQAAABfAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001512|",
               "WhenOpened": "2023-11-09T14:17:02.895Z",
               "EditorCaption": ""
-            },
-            {
-              "$type": "Bookmark",
-              "Name": "ST:0:0:{cce594b6-0c39-4442-ba28-10c64ac7e89f}"
             }
           ]
         }
