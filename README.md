@@ -4,7 +4,7 @@
 
 🔗 **Live site:** https://yrilliex.github.io/YohanPortfolio/
 📄 **Resume:** [Download PDF](./Doc/Yohan-Perera-CV.pdf)
-💼 **LinkedIn:** https://www.linkedin.com/in/k-yohan-s-perera/
+💼 **LinkedIn:**  https://www.linkedin.com/in/yohan-sheridan-perera/
 ✉️ **Email:** yohanperera3@gmail.com
 
 ---
