@@ -1,311 +1,780 @@
 <!DOCTYPE html>
-<html class="no-js" lang="en">
-
+<html lang="en">
 <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>My Portfolio</title>
-	<link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
-	<link rel="icon" href="favicon.ico" type="image/x-icon">
-    <link href="https://fonts.googleapis.com/css?family=Lato:300,400,700,900" rel="stylesheet">
-    <link rel="stylesheet" href="libs/font-awesome/css/font-awesome.min.css">
-    <link href="css/bootstrap.min.css" rel="stylesheet">
-    <link href="css/styles.css" rel="stylesheet">
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Yohan Sheridan Perera — Unity Game Programmer</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-dark.min.css">
+<style>
+  :root{
+    --bg:#0A0D12;
+    --bg-panel:#12161D;
+    --bg-panel-alt:#171C25;
+    --border:#252B37;
+    --border-soft:#1B2029;
+    --text:#E4E7EC;
+    --text-dim:#8A93A6;
+    --text-faint:#565F70;
+    --amber:#E0A458;
+    --amber-dim:#B8894A;
+    --blue:#6C8EFF;
+    --green:#7FBF8F;
+    --red:#D97066;
+    --mono: 'JetBrains Mono', monospace;
+    --display: 'Space Grotesk', sans-serif;
+    --body: 'Inter', sans-serif;
+    --radius: 3px;
+  }
+
+  *{ box-sizing:border-box; margin:0; padding:0; }
+
+  html{ scroll-behavior:smooth; }
+
+  body{
+    background:var(--bg);
+    color:var(--text);
+    font-family:var(--body);
+    line-height:1.6;
+    background-image:
+      radial-gradient(ellipse 80% 50% at 50% -10%, rgba(224,164,88,0.07), transparent),
+      linear-gradient(var(--border-soft) 1px, transparent 1px),
+      linear-gradient(90deg, var(--border-soft) 1px, transparent 1px);
+    background-size: auto, 44px 44px, 44px 44px;
+    background-position: 0 0, -1px -1px, -1px -1px;
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    *{ animation-duration:0.01ms !important; animation-iteration-count:1 !important; transition-duration:0.01ms !important; scroll-behavior:auto !important; }
+  }
+
+  a{ color:inherit; text-decoration:none; }
+
+  ::selection{ background:var(--amber); color:#0A0D12; }
+
+  .wrap{ max-width:920px; margin:0 auto; padding:0 24px; }
+
+  /* ---------- NAV ---------- */
+  nav{
+    position:fixed; top:0; left:0; right:0; z-index:100;
+    background:rgba(10,13,18,0.82);
+    backdrop-filter:blur(10px);
+    border-bottom:1px solid var(--border-soft);
+  }
+  nav .wrap{ display:flex; align-items:center; justify-content:space-between; height:60px; max-width:960px; }
+  .nav-logo{ font-family:var(--mono); font-weight:600; font-size:14px; color:var(--amber); letter-spacing:0.5px; }
+  .nav-logo .cursor{ display:inline-block; width:7px; height:14px; background:var(--amber); margin-left:2px; animation:blink 1.1s steps(1) infinite; vertical-align:-2px; }
+  @keyframes blink{ 50%{ opacity:0; } }
+  .nav-links{ display:flex; gap:28px; list-style:none; }
+  .nav-links a{ font-family:var(--mono); font-size:12.5px; color:var(--text-dim); text-transform:lowercase; transition:color .2s; position:relative; }
+  .nav-links a:hover{ color:var(--text); }
+  .nav-links a::before{ content:'#'; color:var(--text-faint); margin-right:2px; }
+  .nav-toggle{ display:none; }
+  @media (max-width:700px){
+    .nav-links{ display:none; }
+    .nav-toggle{
+      display:flex; flex-direction:column; justify-content:center; gap:5px;
+      width:32px; height:32px; background:none; border:none; cursor:pointer; padding:0;
+    }
+    .nav-toggle span{ display:block; width:100%; height:2px; background:var(--text-dim); transition:transform .25s, opacity .25s; }
+    .nav-toggle[aria-expanded="true"] span:nth-child(1){ transform:translateY(7px) rotate(45deg); }
+    .nav-toggle[aria-expanded="true"] span:nth-child(2){ opacity:0; }
+    .nav-toggle[aria-expanded="true"] span:nth-child(3){ transform:translateY(-7px) rotate(-45deg); }
+
+    .nav-links-mobile{
+      list-style:none; max-height:0; overflow:hidden;
+      background:var(--bg-panel); border-top:1px solid var(--border-soft);
+      transition:max-height .3s ease;
+    }
+    .nav-links-mobile.open{ max-height:340px; }
+    .nav-links-mobile li{ border-bottom:1px solid var(--border-soft); }
+    .nav-links-mobile a{
+      display:block; padding:14px 24px; font-family:var(--mono); font-size:13.5px;
+      color:var(--text-dim); text-transform:lowercase;
+    }
+    .nav-links-mobile a::before{ content:'#'; color:var(--text-faint); margin-right:6px; }
+    .nav-links-mobile a:active{ color:var(--amber); }
+  }
+  @media (min-width:701px){
+    .nav-links-mobile{ display:none; }
+  }
+
+  /* ---------- HERO ---------- */
+  header.hero{ padding:150px 0 90px; }
+  .eyebrow{ font-family:var(--mono); font-size:12.5px; color:var(--green); letter-spacing:1px; margin-bottom:18px; display:flex; align-items:center; gap:8px; }
+  .eyebrow .dot{ width:7px; height:7px; border-radius:50%; background:var(--green); box-shadow:0 0 8px var(--green); }
+
+  .hero-title{ font-family:var(--display); font-weight:700; font-size:clamp(34px,6vw,56px); line-height:1.08; letter-spacing:-0.5px; margin-bottom:16px; }
+  .hero-title .hl{ color:var(--amber); }
+  .hero-sub{ font-family:var(--body); font-size:17px; color:var(--text-dim); max-width:540px; margin-bottom:36px; }
+  .hero-sub .type-line{ font-family:var(--mono); font-size:13.5px; color:var(--text-faint); display:block; margin-top:10px; }
+  .hero-sub .type-line .tcursor{ display:inline-block; width:7px; height:14px; background:var(--text-faint); margin-left:1px; vertical-align:-2px; animation:blink 1s steps(1) infinite; }
+
+  .cta-row{ display:flex; gap:12px; flex-wrap:wrap; margin-bottom:56px; }
+  .btn{ font-family:var(--mono); font-size:13px; padding:11px 18px; border-radius:var(--radius); border:1px solid var(--border); transition:all .2s; display:inline-flex; align-items:center; gap:8px; }
+  .btn-primary{ background:var(--amber); color:#0A0D12; border-color:var(--amber); font-weight:600; }
+  .btn-primary:hover{ background:#EFB56C; }
+  .btn-ghost{ color:var(--text-dim); }
+  .btn-ghost:hover{ border-color:var(--text-dim); color:var(--text); }
+
+  /* ---------- INSPECTOR CARD (signature element) ---------- */
+  .inspector{
+    background:var(--bg-panel);
+    border:1px solid var(--border);
+    border-radius:6px;
+    overflow:hidden;
+    box-shadow:0 20px 60px -20px rgba(0,0,0,0.6);
+  }
+  .inspector-titlebar{
+    background:var(--bg-panel-alt);
+    border-bottom:1px solid var(--border);
+    padding:10px 16px;
+    display:flex; align-items:center; gap:10px;
+  }
+  .inspector-icon{
+    width:20px; height:20px; border-radius:4px;
+    background:linear-gradient(135deg, var(--amber), var(--amber-dim));
+    display:flex; align-items:center; justify-content:center;
+    font-family:var(--mono); font-size:10px; font-weight:700; color:#0A0D12;
+    flex-shrink:0;
+  }
+  .inspector-titlebar .fname{ font-family:var(--mono); font-size:12.5px; color:var(--text-dim); }
+  .inspector-body{ padding:20px; }
+  .field-row{
+    display:flex; align-items:center; justify-content:space-between;
+    padding:11px 0; border-bottom:1px solid var(--border-soft);
+    font-family:var(--mono); font-size:13px;
+  }
+  .field-row:last-child{ border-bottom:none; }
+  .field-label{ color:var(--text-faint); }
+  .field-value{ color:var(--text); text-align:right; }
+  .status-live{ color:var(--green); display:flex; align-items:center; gap:6px; justify-content:flex-end; }
+  .status-live .dot{ width:6px; height:6px; border-radius:50%; background:var(--green); box-shadow:0 0 6px var(--green); }
+  .tag-row{ display:flex; gap:6px; flex-wrap:wrap; justify-content:flex-end; }
+  .tag{ font-size:11px; padding:3px 8px; background:var(--bg-panel-alt); border:1px solid var(--border); border-radius:20px; color:var(--text-dim); }
+
+  /* ---------- SECTION SHELL ---------- */
+  section{ padding:80px 0; border-top:1px solid var(--border-soft); }
+  .section-head{ margin-bottom:44px; }
+  .section-tag{ font-family:var(--mono); font-size:12px; color:var(--amber); letter-spacing:1.5px; text-transform:uppercase; margin-bottom:10px; }
+  .section-title{ font-family:var(--display); font-weight:600; font-size:clamp(24px,4vw,32px); }
+  .section-desc{ color:var(--text-dim); max-width:560px; margin-top:12px; font-size:15px; }
+
+  .reveal{ opacity:0; transform:translateY(18px); transition:opacity .6s ease, transform .6s ease; }
+  .reveal.in{ opacity:1; transform:translateY(0); }
+
+  /* ---------- ABOUT ---------- */
+  .about-grid{ display:grid; grid-template-columns:1.3fr 1fr; gap:40px; align-items:start; }
+  .about-grid p{ color:var(--text-dim); margin-bottom:14px; font-size:15px; }
+  .about-grid p strong{ color:var(--text); font-weight:600; }
+  .stat-block{ display:grid; grid-template-columns:1fr 1fr; gap:1px; background:var(--border); border:1px solid var(--border); border-radius:6px; overflow:hidden; }
+  .stat{ background:var(--bg-panel); padding:18px; }
+  .stat-num{ font-family:var(--mono); font-size:22px; color:var(--amber); font-weight:600; }
+  .stat-label{ font-size:11.5px; color:var(--text-faint); margin-top:4px; text-transform:uppercase; letter-spacing:0.5px; }
+  @media (max-width:700px){ .about-grid{ grid-template-columns:1fr; } }
+
+  /* ---------- SKILLS ---------- */
+  .skill-groups{ display:grid; grid-template-columns:repeat(3,1fr); gap:20px; }
+  .skill-group{ background:var(--bg-panel); border:1px solid var(--border); border-radius:6px; padding:20px; }
+  .skill-group-head{ font-family:var(--mono); font-size:11.5px; color:var(--text-faint); text-transform:uppercase; letter-spacing:1px; margin-bottom:14px; padding-bottom:12px; border-bottom:1px solid var(--border-soft); }
+  .skill-chip-list{ display:flex; flex-wrap:wrap; gap:8px; }
+  .skill-chip{ font-family:var(--mono); font-size:12px; padding:6px 10px; background:var(--bg-panel-alt); border:1px solid var(--border); border-radius:4px; color:var(--text-dim); transition:.2s; }
+  .skill-chip:hover{ border-color:var(--amber); color:var(--text); }
+  @media (max-width:700px){ .skill-groups{ grid-template-columns:1fr; } }
+
+  /* ---------- EXPERIENCE ---------- */
+  .log{ font-family:var(--mono); font-size:13px; }
+  .log-entry{ display:grid; grid-template-columns:120px 1fr; gap:20px; padding:22px 0; border-bottom:1px solid var(--border-soft); }
+  .log-entry:last-child{ border-bottom:none; }
+  .log-time{ color:var(--text-faint); font-size:12px; padding-top:2px; }
+  .log-role{ font-family:var(--display); font-size:16px; color:var(--text); font-weight:600; margin-bottom:2px; }
+  .log-co{ color:var(--amber-dim); font-size:12.5px; margin-bottom:10px; }
+  .log-list{ list-style:none; }
+  .log-list li{ color:var(--text-dim); font-size:13px; padding-left:16px; position:relative; margin-bottom:6px; font-family:var(--body); }
+  .log-list li::before{ content:'›'; position:absolute; left:0; color:var(--blue); }
+  @media (max-width:700px){ .log-entry{ grid-template-columns:1fr; gap:6px; } }
+
+  /* ---------- PROJECTS ---------- */
+  .project-grid{ display:grid; grid-template-columns:1fr 1fr; gap:20px; }
+  .project-card{ background:var(--bg-panel); border:1px solid var(--border); border-radius:6px; overflow:hidden; transition:border-color .2s; }
+  .project-card:hover{ border-color:var(--amber-dim); }
+  .project-body{ padding:18px 20px; }
+  .project-desc{ color:var(--text-dim); font-size:13.5px; margin:12px 0 16px; }
+  .project-links{ display:flex; gap:14px; }
+  .project-links a{ font-family:var(--mono); font-size:12px; color:var(--blue); }
+  .project-links a:hover{ text-decoration:underline; }
+  .field-mini{ display:flex; gap:14px; font-family:var(--mono); font-size:11.5px; color:var(--text-faint); margin-bottom:4px; }
+  @media (max-width:700px){ .project-grid{ grid-template-columns:1fr; } }
+
+  /* ---------- SCRIPTS ---------- */
+  .script-note{ background:var(--bg-panel); border:1px dashed var(--border); border-radius:6px; padding:14px 18px; font-family:var(--mono); font-size:12.5px; color:var(--text-faint); margin-bottom:32px; }
+  .script-note .lbl{ color:var(--green); }
+  .script-card{ background:var(--bg-panel); border:1px solid var(--border); border-radius:6px; overflow:hidden; margin-bottom:24px; }
+  .script-desc{ padding:16px 20px 0; color:var(--text-dim); font-size:13.5px; }
+  .script-card pre{ margin:16px 20px 20px; border-radius:4px; font-size:12.5px; max-height:360px; overflow:auto; }
+  .script-card pre code.hljs{ background:var(--bg-panel-alt) !important; padding:16px !important; border:1px solid var(--border-soft); border-radius:4px; }
+  .script-footer{ display:flex; justify-content:space-between; align-items:center; padding:0 20px 18px; }
+  .script-footer a{ font-family:var(--mono); font-size:12px; color:var(--blue); }
+  .script-footer a:hover{ text-decoration:underline; }
+  .script-lang{ font-family:var(--mono); font-size:11px; color:var(--text-faint); }
+
+  /* ---------- CONTACT ---------- */
+  .terminal{ background:var(--bg-panel); border:1px solid var(--border); border-radius:6px; padding:26px 28px; font-family:var(--mono); font-size:13.5px; }
+  .terminal .prompt{ color:var(--green); }
+  .terminal .cmd{ color:var(--text); }
+  .terminal .line{ margin-bottom:10px; }
+  .contact-links{ display:flex; gap:22px; flex-wrap:wrap; margin-top:20px; padding-top:20px; border-top:1px solid var(--border-soft); }
+  .contact-links a{ font-family:var(--mono); font-size:13px; color:var(--text-dim); transition:.2s; }
+  .contact-links a:hover{ color:var(--amber); }
+
+  footer{ padding:36px 0 60px; text-align:center; }
+  footer p{ font-family:var(--mono); font-size:11.5px; color:var(--text-faint); }
+</style>
 </head>
-
 <body>
-    <div id="mobile-menu-open" class="shadow-large">
-        <i class="fa fa-bars" aria-hidden="true"></i>
+
+<nav>
+  <div class="wrap">
+    <div class="nav-logo">YSP<span class="cursor"></span></div>
+    <ul class="nav-links">
+      <li><a href="#about">about</a></li>
+      <li><a href="#skills">skills</a></li>
+      <li><a href="#experience">experience</a></li>
+      <li><a href="#projects">projects</a></li>
+      <li><a href="#scripts">scripts</a></li>
+      <li><a href="#contact">contact</a></li>
+    </ul>
+    <button class="nav-toggle" id="navToggle" aria-label="Toggle menu" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+  <ul class="nav-links-mobile" id="navLinksMobile">
+    <li><a href="#about">about</a></li>
+    <li><a href="#skills">skills</a></li>
+    <li><a href="#experience">experience</a></li>
+    <li><a href="#projects">projects</a></li>
+    <li><a href="#scripts">scripts</a></li>
+    <li><a href="#contact">contact</a></li>
+  </ul>
+  </div>
+</nav>
+
+<header class="hero wrap">
+  <div class="eyebrow"><span class="dot"></span>OPEN TO REMOTE OPPORTUNITIES</div>
+  <h1 class="hero-title">Yohan Sheridan Perera<br><span class="hl">Unity Game Programmer</span></h1>
+  <p class="hero-sub">
+    C# developer building gameplay systems, tools, and backend-adjacent integrations — currently shipping on a live remote title, and expanding into broader software engineering.
+    <span class="type-line" id="typeLine"></span>
+  </p>
+
+  <div class="cta-row">
+    <a class="btn btn-primary" href="./Doc/YohanSheridanPerera_Resume.pdf" target="_blank" rel="noopener">↗ View Resume</a>
+    <a class="btn btn-ghost" href="#projects">View Projects</a>
+    <a class="btn btn-ghost" href="#contact">Contact</a>
+  </div>
+
+  <div class="inspector reveal">
+    <div class="inspector-titlebar">
+      <div class="inspector-icon">YP</div>
+      <div class="fname">YohanSheridanPerera.cs — Inspector</div>
     </div>
-    <!-- End #mobile-menu-toggle -->
-    <header>
-        <div id="mobile-menu-close">
-            <span>Close</span> <i class="fa fa-times" aria-hidden="true"></i>
-        </div>
-        <ul id="menu" class="shadow">
-            <li>
-                <a href="#about">About</a>
-            </li>
-            <li>
-                <a href="#experience">Experience</a>
-            </li>
-            <li>
-                <a href="#education">Education</a>
-            </li>
-            <li>
-                <a href="#projects">Projects</a>
-            </li>
-            <li>
-                <a href="#skills">Skills</a>
-            </li>
-            <li>
-                <a href="#contact">Contact</a>
-            </li>
-        </ul>
-    </header>
-    <!-- End header -->
-
-    <div id="lead">
-        <div id="lead-content">
-            <h1>K. Yohan S. Perera</h1>
-            <h2>Game Developer</h2>
-            <a href="Doc/K. Yohan S. Perera CV.pdf" class="btn-rounded-white">Download Resume</a>
-        </div>
-        <!-- End #lead-content -->
-
-        <div id="lead-overlay"></div>
-
-        <div id="lead-down">
-            <span>
-                <i class="fa fa-chevron-down" aria-hidden="true"></i>
-            </span>
-        </div>
-        <!-- End #lead-down -->
+    <div class="inspector-body">
+      <div class="field-row"><span class="field-label">Role</span><span class="field-value">Unity Game Programmer (C#)</span></div>
+      <div class="field-row"><span class="field-label">Location</span><span class="field-value">Sri Lanka · GMT+5:30</span></div>
+      <div class="field-row"><span class="field-label">Status</span><span class="status-live"><span class="dot"></span>Available for remote work</span></div>
+      <div class="field-row"><span class="field-label">Education</span><span class="field-value">BSc (Hons) Games Technology, First Class</span></div>
+      <div class="field-row"><span class="field-label">Stack</span><span class="tag-row">
+        <span class="tag">C#</span><span class="tag">Unity</span><span class="tag">Firebase</span><span class="tag">Git</span>
+      </span></div>
     </div>
-    <!-- End #lead -->
+  </div>
+</header>
 
-    <div id="about">
-        <div class="container">
-            <div class="row">
-                <div class="col-md-4">
-                    <h2 class="heading">About Me</h2>
-                </div>
-                <div class="col-md-8">
-                    <p>
-                        Enthusiastic and highly motivated programming student with proven leadership abilities. Passionate about game development and working collaboratively in teams to create visually captivating video games. Skilled in modern technologies like C# and C++, constantly improving to stay ahead in the dynamic field of game development. Eager to innovate and contribute to immersive gaming experiences that captivate players.
-                    </p>
-                </div>
-            </div>
-        </div>
+<section id="about">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <div class="section-tag">01 · About</div>
+      <h2 class="section-title">Systems first, polish second</h2>
     </div>
-    <!-- End #about -->
-
-    <div id="experience" class="background-alt">
-        <h2 class="heading">Work Experience</h2>
-        <div id="experience-timeline">
-            <div data-date="Jan 2025 – Present ">
-                <h3>Game/ App Programmer </h3>
-                <h4>G.O.A.T Collectibles</h4>
-                <p>
-                    Designed and implemented core gameplay systems in Unity using C#, from character controllers to UI flows. 
-                    Integrated Firebase Authentication for secure user management and collaborated closely with artists and designers to debug builds, optimize performance, and iterate on feature polish. Consistently delivered remote-friendly solutions and automated smoke tests to streamline development cycles.
-                </p>
-            </div>
-
-            <div data-date="Oct 2022 – Jun 2024 ">
-                <h3>Game Streamer</h3>
-                <h4>Youtube</h4>
-                <p>
-                    Achieved a remarkable 95% completion rate in the first quarter of gameplay by strategically tackling complex in-game challenges with quick thinking and precise execution.
-                </p>
-            </div>
-
-            <div data-date="June 2022 – September 2022">
-                <h3>System IT Adminstrator (Intern)</h3>
-                <h4>Zavy Technologies</h4>
-                <p>
-                    Discovered and reported 50+ software bugs, leading to a 30% reduction in system errors and enhanced user experience.
-                    Offered regular feedback on recurring issues to the tech team, resulting in a 20% decrease in customer complaints and higher customer satisfaction ratings.
-                    Collaborated with cross-functional teams to create project proposals, providing valuable insights that achieved an 80% approval rate.
-                </p>
-            </div>
-
-            <div data-date="May 2021 – June 2022">
-                <h3>Data Entry Operator (Online)</h3>
-                <h4>Zavy Technologies</h4>
-                <p>
-                    I thoroughly examined student records, fee data, and final mark sheets. By identifying significant trends and patterns, I successfully improved the accuracy of student academic evaluations by an impressive 10%. My keen eye for detail and data-driven approach contributed to enhancing the overall assessment process and student performance tracking.
-                </p>
-            </div>
-        </div>
+    <div class="about-grid reveal">
+      <div>
+        <p>I'm a Unity/C# programmer with a <strong>first-class BSc (Hons) in Games Technology</strong>, currently working remotely on a live commercial title. I care most about <strong>modular, data-driven architecture</strong> — building systems with Scriptable Objects and clean component boundaries so features stay easy to extend and debug.</p>
+        <p>Outside of shipping gameplay code, I've run live playtests, integrated Firebase-backed account systems, and handled cross-platform release testing. I'm currently expanding beyond games into broader software engineering — backend web development, cloud fundamentals, and automated testing — and I'm genuinely open to learning other areas of IT beyond Unity as opportunities come up.</p>
+        <p>I also work closely with AI tools as part of my day-to-day process — using them to move faster through design, debugging, and documentation without losing sight of the underlying system. I think of it less as "using AI" and more as a systems-thinking skill in its own right: knowing what to hand off, what to verify, and how the pieces fit together either way.</p>
+      </div>
+      <div class="stat-block">
+        <div class="stat"><div class="stat-num">1.5+ yrs</div><div class="stat-label">Professional Unity dev</div></div>
+        <div class="stat"><div class="stat-num">3.87</div><div class="stat-label">CGPA · First Class</div></div>
+        <div class="stat"><div class="stat-num">4+ yrs</div><div class="stat-label">Hands-on Unity/C#</div></div>
+        <div class="stat"><div class="stat-num">GMT+5:30</div><div class="stat-label">Timezone</div></div>
+      </div>
     </div>
-    <!-- End #experience -->
+  </div>
+</section>
 
-    <div id="education">
-        <h2 class="heading">Education</h2>
-        <div class="education-block">
-            <h3>Limkokwing University of Creative Technology</h3>
-            <span class="education-date">Nov 2020 - June 2023</span>
-            <h4>Bachelor of Science(Hons) in Game Technologies</h4>
-            <ul>
-                <li>
-                    For My Final Year Project, receive the award for Best System Presentation.
-                </li>
-                <li>
-                    Acted in a television programme produced by RTM.
-                </li>
-                <li>
-                    Performed a community service by freshening up a beach area.
-                </li>
-            </ul>
-        </div>
-        <!-- End .education-block -->
-
-        <div class="education-block">
-            <h3>Limkokwing University of Creative Technology</h3>
-            <span class="education-date">April 2019 - June 2020</span>
-            <h4>Foundation in Information Technologies</h4>
-            <ul>
-                <li>
-                    Conducted a CEO interview as part of a group project for an ACER company.
-                </li>
-                <li>
-                    Participated in the university's cultural festival  
-                </li>
-            </ul>
-        </div>
-        <!-- End .education-block -->
+<section id="skills">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <div class="section-tag">02 · Skills</div>
+      <h2 class="section-title">Add Component</h2>
+      <p class="section-desc">Core toolkit, grouped the way I'd actually reach for it on a project.</p>
     </div>
-    <!-- End #education -->
-
-    <div id="projects" class="background-alt">
-        <h2 class="heading">Projects</h2>
-        <div class="container">
-            <div class="row">
-                <div class="project shadow-large">
-                    <div class="project-image">
-                        <img src="images/Zombie Outbreak jpeg-01.jpg" width="300" height="300" />
-                    </div>
-                    <!-- End .project-image -->
-                        <div class="project-info">
-                            <h3>Zombie Outbreak Survival Game (UD)</h3>
-                            <p>
-                                Zombie Outbreak: Survival is a zombie survival game where you must survive as long as you can while fending off the hordes of the undead. The game has straightforward gameplay and high-quality graphics. The code for the game is clean and understandable, following best practices such as modular design, meaningful naming, and consistent formatting. Comments and documentation are included to explain complex logic. Blueprint Interfaces are used for communication between actors, and duplicate code is avoided by creating reusable functions. Assets are organized in the Unreal Editor to improve maintainability, and complex nesting is avoided. Regular testing and refactoring help optimize performance and maintain a tidy codebase.
-                                <b>Note:</b> The Game is UnderDevelopment will be added in itch.io in future.
-                            </p>
-                            <a href="https://youtu.be/LWas5Jsv2WY">Game Demo Reel</a>
-                        </div>
-                    </div>
-                    <!-- End .project-info -->
-                </div>
-                <!-- End .project -->
-
-                <div class="project shadow-large">
-                    <div class="project-image">
-                        <img src="images/Spaceshooter.png" width="300" height="300" />
-                    </div>
-                    <!-- End .project-image -->
-                    <div class="project-info">
-                        <h3>2D Space Game</h3>
-                        <p>
-                            In the development of the 2D shooter game "Space Runaway" using Unity and C#, I emphasized maintaining a clean and understandable codebase with a focus on reusability. To achieve this, I employed a modular design approach, breaking down the project into smaller, self-contained components for player movement, enemy AI, weapon systems, and level generation. Descriptive naming and thorough comments were used throughout the code and blueprints, ensuring clarity and facilitating comprehension for both current and future developers. Additionally, I leveraged Scriptable Objects to manage game data and configurations, creating flexible and reusable assets for weapons, enemy behavior, and level layouts.
-                        </p>
-                        <a href="https://github.com/Yrilliex/2DSpaceGame">View Project</a>
-                    </div>
-                    <!-- End .project-info -->
-                </div>
-                <!-- End .project -->
-                <div class="project shadow-large">
-                    <div class="project-image">
-                        <img src="images/panggame.png" width="300" height="300" />
-                    </div>
-                    <!-- End .project-image -->
-                    <div class="project-info">
-                        <h3>Pang Clone Game</h3>
-                        <p>
-                            I put a focus on reusability while prioritising a clear and understandable code structure when developing my first 2D game, "Pang," using Unity. I divided the project into discrete parts by using a modular design to manage player movement, opponent behaviour, power-ups, and level progression over the game's five difficult levels. My knowledge and future cooperation with other developers were aided by the use of precise and illustrative naming standards and thorough comments. I was able to effectively manage game data, such as power-up qualities and opponent patterns, by utilising Scriptable Objects, which encouraged flexibility and made future expansion simple. 
-                        </p>
-                        <a href="https://github.com/Yrilliex/My-First-2D-Game">View Project</a>
-                    </div>
-                    <!-- End .project-info -->
-                </div>
-                <!-- End .project -->
-            </div>
+    <div class="skill-groups reveal">
+      <div class="skill-group">
+        <div class="skill-group-head">Programming</div>
+        <div class="skill-chip-list">
+          <span class="skill-chip">C#</span><span class="skill-chip">C++</span><span class="skill-chip">C</span>
+          <span class="skill-chip">Python (Basic)</span><span class="skill-chip">SQL (Basic)</span>
+          <span class="skill-chip">HTML/CSS</span>
         </div>
-    </div>
-    <!-- End #projects -->
-
-    <div id="skills">
-        <h2 class="heading">Skills</h2>
-        <ul>
-            <li>Unreal Engine 5</li>
-            <li>Unity</li>
-            <li>Visual Studio</li>
-            <li>FireBase</li>
-            <li>PlayFab</li>
-            <li>Code::Block</li>
-            <li>MS Excel</li>
-            <li>MS Word</li>
-            <li>MS Powerpoint</li>
-            <li>Adobe Premier</li>
-            <li>OBS</li>
-            <li>C</li>
-            <li>C#</li>
-            <li>C++</li>
-            <li>HTML</li>
-            <li>CSS</li>
-            <li>Basic Python</li>
-            <li>Basic SQL</li>
-            <li>Basic Blender</li>
-            <li>Canva</li>
-            <li>TeamWork</li>
-            <li>Problem Solving</li>
-            <li>Critical Thinker</li>
-            <li>Communication</li>
-        </ul>
-    </div>
-    <!-- End #skills -->
-
-    <div id="contact">
-        <h2>Get in Touch</h2>
-        <div id="contact-form">
-            <form method="POST" action="https://formspree.io/f/mqkvaqon">
-                <input type="hidden" name="_subject" value="Contact request from personal website" />
-                <input type="email" name="_replyto" placeholder="Your email" required>
-                <textarea name="message" placeholder="Your message" required></textarea>
-                <button type="submit">Send</button>
-            </form>
+      </div>
+      <div class="skill-group">
+        <div class="skill-group-head">Engines & Tools</div>
+        <div class="skill-chip-list">
+          <span class="skill-chip">Unity</span><span class="skill-chip">Unreal Engine 5</span>
+          <span class="skill-chip">Firebase</span><span class="skill-chip">PlayFab</span>
+          <span class="skill-chip">Git / GitHub</span><span class="skill-chip">Visual Studio</span>
+          <span class="skill-chip">OBS Studio</span><span class="skill-chip">Microsoft Office</span>
         </div>
-        <!-- End #contact-form -->
-    </div>
-    <!-- End #contact -->
-
-    <footer>
-        <div class="container">
-            <div class="row">
-                <div class="col-sm-5 copyright">
-                    <p>
-                        Copyright &copy; <span id="current-year">2023</span> YohanPerera
-                    </p>
-                </div>
-                <div class="col-sm-2 top">
-                    <span id="to-top">
-                        <i class="fa fa-chevron-up" aria-hidden="true"></i>
-                    </span>
-                </div>
-                <div class="col-sm-5 social">
-                    <ul>
-                        <li>
-                            <a href="https://github.com/Yrilliex" target="_blank"><i class="fa fa-github" aria-hidden="true"></i></a>
-                        </li>
-                        <li>
-                            <a href="https://gitlab.com/Yrilliex" target="_blank"><i class="fa fa-gitlab" aria-hidden="true"></i></a>
-                        </li>
-                        <li>
-                            <a href="https://www.instagram.com/yrilliex_perera/" target="_blank"><i class="fa fa-instagram" aria-hidden="true"></i></a>
-                        </li>
-                        <li>
-                            <a href="https://www.linkedin.com/in/k-yohan-s-perera/" target="_blank"><i class="fa fa-linkedin" aria-hidden="true"></i></a>
-                        </li>
-                        <li>
-                            <a href="https://www.facebook.com/yohan.perera.5203/" target="_blank"><i class="fa fa-facebook" aria-hidden="true"></i></a>
-                        </li>
-                        <li>
-                            <a href="mailto:yohanperera3@gmail.com" target="_blank"><i class="fa fa-envelope" aria-hidden="true"></i></a>
-                        </li>
-                        <li>
-                            <a href="https://www.youtube.com/@yrilliexgaming" target="_blank"><i class="fa fa-youtube" aria-hidden="true"></i></a>
-                        </li>
-                    </ul>
-                </div>
-            </div>
+      </div>
+      <div class="skill-group">
+        <div class="skill-group-head">Practice</div>
+        <div class="skill-chip-list">
+          <span class="skill-chip">Playtesting & QA</span><span class="skill-chip">UI/UX Implementation</span>
+          <span class="skill-chip">Mobile/WebGL Optimisation</span><span class="skill-chip">Live Production</span>
+          <span class="skill-chip">AI-Augmented Systems Thinking</span>
         </div>
-    </footer>
-    <!-- End footer -->
+      </div>
+    </div>
+  </div>
+</section>
 
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-    <script src="js/scripts.min.js"></script>
+<section id="experience">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <div class="section-tag">03 · Experience</div>
+      <h2 class="section-title">$ history</h2>
+    </div>
+    <div class="log reveal">
+      <div class="log-entry">
+        <div class="log-time">2025.01 →<br>present</div>
+        <div>
+          <div class="log-role">Game Programmer (Remote)</div>
+          <div class="log-co">G.O.A.T Collectables · Malaysia</div>
+          <ul class="log-list">
+            <li>Develop and maintain gameplay systems in C#/Unity, focused on mechanics stability and player-facing polish</li>
+            <li>Integrated Firebase Authentication for secure sign-in and account flows</li>
+            <li>Run cross-platform testing and performance passes before each release; collaborate with distributed artists and designers via Git-based workflows</li>
+            <li>Currently building login and learning-activity systems for an Android educational app aligned with the Year 5–6 Malaysian curriculum, designed offline-first for rural areas with limited connectivity</li>
+          </ul>
+        </div>
+      </div>
+      <div class="log-entry">
+        <div class="log-time">2023.11 →<br>2024.12</div>
+        <div>
+          <div class="log-role">Solar Proposal and Design Coordinator</div>
+          <div class="log-co">Vivid Vision (Pvt) Ltd · Sri Lanka</div>
+          <ul class="log-list">
+            <li>Used OpenSolar to create and manage solar layout designs while supporting technical workflow and project coordination</li>
+            <li>Maintained and organised project data in Microsoft Excel, ensuring accuracy in records, proposals, and reporting</li>
+            <li>Collaborated with internal teams to support digital documentation, data handling, and operational efficiency across solar project tasks</li>
+          </ul>
+        </div>
+      </div>
+      <div class="log-entry">
+        <div class="log-time">2022.10 →<br>2024.06</div>
+        <div>
+          <div class="log-role">IT & Game Development Specialist</div>
+          <div class="log-co">Freelance</div>
+          <ul class="log-list">
+            <li>Built and shipped Unity prototypes (core mechanics, UI, spawning/animation systems) used as live playtest builds</li>
+            <li>Produced and streamed development content; used direct viewer feedback to prioritise fixes and balance changes</li>
+          </ul>
+        </div>
+      </div>
+      <div class="log-entry">
+        <div class="log-time">2021.05 →<br>2022.09</div>
+        <div>
+          <div class="log-role">Data Clerk → System IT Administrator (Intern)</div>
+          <div class="log-co">Zavy Technologies · Malaysia</div>
+          <ul class="log-list">
+            <li>Managed and cleaned datasets in Excel with high accuracy; proposed process changes that reduced recurring errors</li>
+            <li>Promoted to intern IT administrator: implemented monitoring for uptime/performance, ran backups and preventive maintenance</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="projects">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <div class="section-tag">04 · Projects</div>
+      <h2 class="section-title">Featured builds</h2>
+    </div>
+    <div class="project-grid reveal">
+
+      <div class="project-card">
+        <div class="inspector-titlebar">
+          <div class="inspector-icon">SR</div>
+          <div class="fname">SpaceRunaway.unity</div>
+        </div>
+        <div class="project-body">
+          <div class="field-mini"><span>ENGINE: Unity</span><span>LANG: C#</span></div>
+          <div class="field-mini"><span>STATUS: Complete</span></div>
+          <p class="project-desc">2D top-down space shooter built around a Scriptable Object–driven weapon and enemy system — new weapon/enemy types are added as data assets, not new code.</p>
+          <div class="project-links">
+            <a href="https://github.com/Yrilliex/2DSpaceGame">→ Repo</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="project-card">
+        <div class="inspector-titlebar">
+          <div class="inspector-icon">PC</div>
+          <div class="fname">PangClone.unity</div>
+        </div>
+        <div class="project-body">
+          <div class="field-mini"><span>ENGINE: Unity</span><span>LANG: C#</span></div>
+          <div class="field-mini"><span>STATUS: Complete · 5 levels</span></div>
+          <p class="project-desc">My first full 2D game — a Pang recreation used deliberately to establish modular architecture habits early: clean component boundaries and data-driven level config.</p>
+          <div class="project-links">
+            <a href="https://github.com/Yrilliex/My-First-2D-Game">→ Repo</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="project-card">
+        <div class="inspector-titlebar">
+          <div class="inspector-icon">ZO</div>
+          <div class="fname">ZombieOutbreak.uproject</div>
+        </div>
+        <div class="project-body">
+          <div class="field-mini"><span>ENGINE: Unreal 5</span><span>LANG: Blueprints</span></div>
+          <div class="field-mini"><span>STATUS: Paused — hardware upgrade needed</span></div>
+          <p class="project-desc">Zombie survival game using Blueprint Interfaces for actor-to-actor communication. Currently paused — my current laptop can't run the latest UE5 build — resuming once I'm on suitable hardware.</p>
+          <div class="project-links">
+            <a href="https://gitlab.com/Yrilliex/zombieoutbreaksurvivalgame">→ Repo</a>
+            <a href="https://youtu.be/LWas5Jsv2WY">→ Demo Reel</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="project-card">
+        <div class="inspector-titlebar">
+          <div class="inspector-icon">FB</div>
+          <div class="fname">FirebaseAuthSystem.cs</div>
+        </div>
+        <div class="project-body">
+          <div class="field-mini"><span>ENGINE: Unity</span><span>LANG: C#</span></div>
+          <div class="field-mini"><span>STATUS: Complete</span></div>
+          <p class="project-desc">Sign-in, sign-up, and password reset, plus offline/online auto-login backed by a time-boxed local session cache — so returning players aren't blocked by a login screen when offline.</p>
+          <div class="project-links">
+            <a href="https://github.com/Yrilliex/firebase-auth-system">→ Repo</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="project-card">
+        <div class="inspector-titlebar">
+          <div class="inspector-icon">MC</div>
+          <div class="fname">MultipleChoiceMatch.cs</div>
+        </div>
+        <div class="project-body">
+          <div class="field-mini"><span>ENGINE: Unity</span><span>LANG: C#</span></div>
+          <div class="field-mini"><span>STATUS: Complete · 2 variants</span></div>
+          <p class="project-desc">Two implementations of the same "pick the correct answer" interaction — world-space spawned options vs. a fixed UI grid — built to compare engineering trade-offs directly.</p>
+          <div class="project-links">
+            <a href="https://github.com/Yrilliex/multiple-choice-match">→ Repo</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="project-card">
+        <div class="inspector-titlebar">
+          <div class="inspector-icon">DD</div>
+          <div class="fname">DragDropWordMatch.cs</div>
+        </div>
+        <div class="project-body">
+          <div class="field-mini"><span>ENGINE: Unity</span><span>LANG: C#</span></div>
+          <div class="field-mini"><span>STATUS: Complete</span></div>
+          <p class="project-desc">Drag-and-drop word-to-picture matching, built on Unity's UI drag interfaces — correct drops snap into place, incorrect drops return to start so the player can retry.</p>
+          <div class="project-links">
+            <a href="https://github.com/Yrilliex/drag-drop-word-match">→ Repo</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="project-card">
+        <div class="inspector-titlebar">
+          <div class="inspector-icon">RB</div>
+          <div class="fname">RoundBasedFramework.cs</div>
+        </div>
+        <div class="project-body">
+          <div class="field-mini"><span>ENGINE: Unity</span><span>LANG: C#</span></div>
+          <div class="field-mini"><span>STATUS: Complete</span></div>
+          <p class="project-desc">A reusable round-loop framework extracted after noticing two separate mini-games shared the same underlying structure — composition over duplication.</p>
+          <div class="project-links">
+            <a href="https://github.com/Yrilliex/round-based-game-framework">→ Repo</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="project-card">
+        <div class="inspector-titlebar">
+          <div class="inspector-icon">CM</div>
+          <div class="fname">ColorMatchGame.cs</div>
+        </div>
+        <div class="project-body">
+          <div class="field-mini"><span>ENGINE: Unity</span><span>LANG: C#</span></div>
+          <div class="field-mini"><span>STATUS: Complete</span></div>
+          <p class="project-desc">Tap-the-matching-color mini-game built on a swappable ScriptableObject palette system, so new difficulty tiers are new assets, not new code.</p>
+          <div class="project-links">
+            <a href="https://github.com/Yrilliex/color-match-game">→ Repo</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="project-card">
+        <div class="inspector-titlebar">
+          <div class="inspector-icon">AL</div>
+          <div class="fname">AudioListenTapGame.cs</div>
+        </div>
+        <div class="project-body">
+          <div class="field-mini"><span>ENGINE: Unity</span><span>LANG: C#</span></div>
+          <div class="field-mini"><span>STATUS: Complete</span></div>
+          <p class="project-desc">Audio-driven "listen and tap" quiz — a spoken prompt plays, word options swim independently around the screen, and a correct tap advances instantly with no delay.</p>
+          <div class="project-links">
+            <a href="https://github.com/Yrilliex/audio-listen-tap-game">→ Repo</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="project-card">
+        <div class="inspector-titlebar">
+          <div class="inspector-icon">MV</div>
+          <div class="fname">MagnifierVision.kt</div>
+        </div>
+        <div class="project-body">
+          <div class="field-mini"><span>PLATFORM: Android</span><span>LANG: Kotlin</span></div>
+          <div class="field-mini"><span>STATUS: Planned — starting soon</span></div>
+          <p class="project-desc">A live camera app that detects people and everyday objects in real time using on-device machine learning (TensorFlow Lite), then looks up more information online once something's identified. Solo project, offline-first by design.</p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<section id="scripts">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <div class="section-tag">05 · Scripts</div>
+      <h2 class="section-title">Systems I've written</h2>
+      <p class="section-desc">A closer look at patterns from my own work — standalone, original implementations rather than employer code.</p>
+    </div>
+
+    <div class="script-note reveal">
+      <span class="lbl">// note</span> — snippets below are trimmed for readability. Full source lives in the linked repos.
+    </div>
+
+    <div class="reveal">
+
+      <div class="script-card">
+        <div class="inspector-titlebar">
+          <div class="inspector-icon">#</div>
+          <div class="fname">WeaponData.cs</div>
+        </div>
+        <p class="script-desc">Scriptable Object weapon definition — new weapons are created as assets, not new scripts. Used in Space Runaway.</p>
+        <pre><code class="language-csharp">[CreateAssetMenu(fileName = "NewWeapon", menuName = "Combat/Weapon Data")]
+public class WeaponData : ScriptableObject
+{
+    public string weaponName;
+    public GameObject projectilePrefab;
+    public float fireRate;
+    public float damage;
+    public float projectileSpeed;
+
+    public void Fire(Transform origin, Vector2 direction)
+    {
+        var projectile = Instantiate(projectilePrefab, origin.position, Quaternion.identity);
+        var rb = projectile.GetComponent&lt;Rigidbody2D&gt;();
+        rb.linearVelocity = direction.normalized * projectileSpeed;
+
+        if (projectile.TryGetComponent(out Projectile p))
+            p.Init(damage);
+    }
+}</code></pre>
+        <div class="script-footer">
+          <a href="https://github.com/Yrilliex/2DSpaceGame">View full project on GitHub →</a>
+          <span class="script-lang">C#</span>
+        </div>
+      </div>
+
+      <div class="script-card">
+        <div class="inspector-titlebar">
+          <div class="inspector-icon">#</div>
+          <div class="fname">WaveSpawner.cs</div>
+        </div>
+        <p class="script-desc">Configurable enemy wave spawner — wave data lives in Scriptable Objects so difficulty tuning doesn't touch code.</p>
+        <pre><code class="language-csharp">public class WaveSpawner : MonoBehaviour
+{
+    [SerializeField] private WaveData[] waves;
+    [SerializeField] private Transform[] spawnPoints;
+
+    private int currentWave = 0;
+
+    public IEnumerator RunWave()
+    {
+        WaveData wave = waves[currentWave];
+
+        for (int i = 0; i &lt; wave.enemyCount; i++)
+        {
+            var point = spawnPoints[Random.Range(0, spawnPoints.Length)];
+            Instantiate(wave.enemyPrefab, point.position, Quaternion.identity);
+            yield return new WaitForSeconds(wave.spawnInterval);
+        }
+
+        currentWave = Mathf.Min(currentWave + 1, waves.Length - 1);
+    }
+}</code></pre>
+        <div class="script-footer">
+          <a href="https://github.com/Yrilliex/2DSpaceGame">View full project on GitHub →</a>
+          <span class="script-lang">C#</span>
+        </div>
+      </div>
+
+      <div class="script-card">
+        <div class="inspector-titlebar">
+          <div class="inspector-icon">#</div>
+          <div class="fname">FirebaseAuthService.cs</div>
+        </div>
+        <p class="script-desc">Firebase sign-in wrapper — one piece of a fuller system in the linked repo that also covers sign-up, password reset, and offline/online auto-login.</p>
+        <pre><code class="language-csharp">public async Task&lt;AuthResult&gt; SignIn(string email, string password)
+{
+    try
+    {
+        var result = await auth.SignInWithEmailAndPasswordAsync(email, password);
+        return AuthResult.Success(result.User);
+    }
+    catch (FirebaseException e)
+    {
+        return AuthResult.Failure(MapAuthError(e));
+    }
+}</code></pre>
+        <div class="script-footer">
+          <a href="https://github.com/Yrilliex/firebase-auth-system">View full project on GitHub →</a>
+          <span class="script-lang">C#</span>
+        </div>
+      </div>
+
+      <div class="script-card">
+        <div class="inspector-titlebar">
+          <div class="inspector-icon">#</div>
+          <div class="fname">RoundGameManager.cs</div>
+        </div>
+        <p class="script-desc">Generalized round-loop driver, extracted after noticing two separate mini-games (Multiple-Choice Match and Drag-and-Drop Word Match) shared the same underlying round structure.</p>
+        <pre><code class="language-csharp">public void Bind(MonoBehaviour concreteGame)
+{
+    game = concreteGame as IRoundGame;
+}
+
+private void AdvanceRound()
+{
+    currentRound++;
+    if (currentRound >= totalRounds)
+    {
+        OnAllRoundsComplete?.Invoke();
+        return;
+    }
+    game.StartRound(currentRound);
+    timer.StartTimer(secondsPerRound);
+}</code></pre>
+        <div class="script-footer">
+          <a href="https://github.com/Yrilliex/round-based-game-framework">View full project on GitHub →</a>
+          <span class="script-lang">C#</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<section id="contact">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <div class="section-tag">06 · Contact</div>
+      <h2 class="section-title">Let's talk</h2>
+    </div>
+    <div class="terminal reveal">
+      <div class="line"><span class="prompt">yohan@portfolio</span>:~$ <span class="cmd">whoami</span></div>
+      <div class="line" style="color:var(--text-dim)">Unity game programmer, open to remote junior/mid-level roles in game dev or software engineering.</div>
+      <div class="line"><span class="prompt">yohan@portfolio</span>:~$ <span class="cmd">contact --reach-me</span></div>
+      <div class="contact-links">
+        <a href="mailto:yohanperera3@gmail.com">✉ yohanperera3@gmail.com</a>
+        <a href="https://www.linkedin.com/in/yohan-sheridan-perera/">in/ LinkedIn</a>
+        <a href="https://github.com/Yrilliex">⌘ GitHub</a>
+        <a href="tel:+94767304940">☎ +94 76 730 4940</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <p>Built by Yohan Sheridan Perera · Last updated August 2026</p>
+</footer>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/csharp.min.js"></script>
+<script>
+  hljs.highlightAll();
+
+  // mobile nav toggle
+  const navToggle = document.getElementById('navToggle');
+  const navLinksMobile = document.getElementById('navLinksMobile');
+  navToggle.addEventListener('click', () => {
+    const isOpen = navLinksMobile.classList.toggle('open');
+    navToggle.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+  });
+  navLinksMobile.querySelectorAll('a').forEach(a => {
+    a.addEventListener('click', () => {
+      navLinksMobile.classList.remove('open');
+      navToggle.setAttribute('aria-expanded', 'false');
+    });
+  });
+
+  // scroll reveal
+  const reveals = document.querySelectorAll('.reveal');
+  const io = new IntersectionObserver((entries)=>{
+    entries.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); } });
+  }, { threshold:0.12 });
+  reveals.forEach(el=>io.observe(el));
+
+  // hero typed line
+  const typeTarget = document.getElementById('typeLine');
+  const phrases = [
+    '> building modular, data-driven Unity systems',
+    '> currently learning: ASP.NET Core, cloud fundamentals',
+    '> status: compiling career.exe'
+  ];
+  let pi=0, ci=0, deleting=false;
+  function typeLoop(){
+    const phrase = phrases[pi];
+    if(!deleting){
+      ci++;
+      typeTarget.innerHTML = phrase.slice(0,ci) + '<span class="tcursor"></span>';
+      if(ci===phrase.length){ deleting=true; setTimeout(typeLoop, 1400); return; }
+    } else {
+      ci--;
+      typeTarget.innerHTML = phrase.slice(0,ci) + '<span class="tcursor"></span>';
+      if(ci===0){ deleting=false; pi=(pi+1)%phrases.length; }
+    }
+    setTimeout(typeLoop, deleting?25:45);
+  }
+  typeLoop();
+</script>
+
 </body>
-
 </html>
